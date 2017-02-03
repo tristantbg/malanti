@@ -1,45 +1,37 @@
 <?php snippet('header') ?>
 
+<?php $first = $pages->find('work')->children()->visible()->first() ?>
+<?php $images = $first->medias()->toStructure() ?>
+<?php $title = $first->title()->html(); ?>
+
 <div id="container">
 
-<div class="inner">
+<div class="inner project">
+	
+	<div id="slider">
 
-<?php $projects = $page->children()->visible() ?>
+	<?php foreach ($images as $key => $image): ?>
 
-	<div id="project-list">
+		<?php $image = $image->toFile(); ?>
 
-	<?php foreach ($projects as $key => $project): ?>
-
-	<?php 
-
-	$title = $project->title()->html(); 
-	if($project->subtitle()->isNotEmpty()):
-		$title .= ' '.$project->subtitle()->html();
-	endif
-
-	?>
-
-		<div class="project-link">
-		<a href="<?= $project->url() ?>" data-title="<?= $title ?>" data-target="project">
-			<div class="project-title">
-				<span>
-					<?php
-					echo $project->title()->html();
-					if($project->subtitle()->isNotEmpty()):
-					echo ' <em>'.$project->subtitle()->html().'</em>';
-					endif
-					?>
-				</span>
+		<div class="cell" data-caption="<?= $image->caption()->html() ?>" data-backcolor="<?= $image->backcolor() ?>" data-textcolor="<?= $image->textcolor() ?>">
+			<div class="content">
+				<img class="lazy" src="<?= resizeOnDemand($image, 100) ?>" data-flickity-lazyload="<?= resizeOnDemand($image, 1700, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+				<noscript>
+					<img src="<?= resizeOnDemand($image, 1700, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+				</noscript>
 			</div>
-			<div class="project-date">
-				<?= $project->date('Y'); ?>
-			</div>
-		</a>
 		</div>
 
 	<?php endforeach ?>
 
 	</div>
+	
+	<div id="project-description">
+		<?= $first->text()->kt() ?>
+	</div>
+
+	<div id="slide-caption"></div>
 
 </div>
 	

@@ -68,37 +68,69 @@
 </head>
 <body>
 
-<?php
-if ($page->isHomepage()):
+<div id="loader" style="background-color:<?= $site->introbackground() ?>;">
+	<!-- <div class="spinner">
+		<svg class="circular" viewBox="25 25 50 50">
+		<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1" stroke-miterlimit="10" style="stroke:<?= $site->introtext() ?>;"></circle>
+		</svg>
+	</div> -->
+</div>
 
-	$galleryPage = $pages->find('work');
-    $galleryChilds = $galleryPage->children()->visible();
-    $galleryImages = new Collection();
-    foreach ($galleryChilds as $c) {
-        foreach ($c->medias()->toStructure() as $i) {
-            $galleryImages->data[] = resizeOnDemand($i->toFile(),1000);
-        }
-    }
-    shuffle($galleryImages->data);
-    $galleryImages = $galleryImages->limit(1);
+<div id="intro" style="background:<?= $site->introbackground() ?>; color:<?= $site->introtext() ?>;">
+	<span><?= $site->title()->html() ?></span>
+</div>
 
-    echo '<div id="intro"><img src="'.$galleryImages.'"></div>';
-
-endif
-
-?>
-
-<div class="loader"></div>
+<div id="wrapper">
 
 <header>
-	<a href="<?= $site->url() ?>" data-target="index">
-	<?= $site->title()->html() ?>
+
+	<div id="project-select">
+		<?php $projects = $pages->find('work')->children()->visible() ?>
+		<div id="current-project">
+			<?php 
+			if($page->isHomepage()){ 
+				$current = $projects->first();
+			} else {
+				$current = $page;
+			} 
+			?>
+			<h2>
+				<?= str_pad($current->sort(), 2, '0', STR_PAD_LEFT).'. '; ?>
+				<?= $current->title()->html() ?>
+			</h2>
+		</div>
+		
+		<div id="project-list">
+		<?php $idx = 0 ?>
+		<?php foreach ($projects as $key => $project): ?>
+		
+			<div class="project-link<?php if($page->isHomepage() && $idx == 0) { echo ' active'; } else if($project->isOpen()) { echo ' active'; } ?>">
+				<a href="<?= $project->url() ?>" data-title="<?= $project->title()->html() ?>" data-target="project">
+					<div class="project-title">
+						<h2>
+							<?= str_pad($project->sort(), 2, '0', STR_PAD_LEFT).'. '; ?>
+							<?= $project->title()->html() ?>
+						</h2>
+					</div>
+				</a>
+			</div>
+		
+		<?php $idx++ ?>
+		
+		<?php endforeach ?>
+		
+		</div>
+	</div>
+
+	<a id="site-title" href="<?= $site->url() ?>" data-target="about">
+		<span>Oisin</span><span> </span><span>Orlandi</span>
 	</a>
 </header>
 
+<div id="about">
 <?php $about = $pages->find('about') ?>
-<div id="about-link">
-	<a href="<?= $about->url() ?>" data-title="<?= $about->title()->html() ?>" data-target="page">
-	<?= $about->title()->html() ?>
-	</a>
+	<div id="infos">
+		<div id="site-description"><?= $about->text()->kt() ?></div>
+	</div>
+	<div id="footer"><?= $about->footer()->kt() ?></div>
 </div>

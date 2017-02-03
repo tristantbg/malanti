@@ -1,34 +1,21 @@
 <?php snippet('header') ?>
 
 <?php $images = $page->medias()->toStructure() ?>
-<?php 
-
-$title = $page->title()->html(); 
-if($page->subtitle()->isNotEmpty()):
-	$title .= ' '.$page->subtitle()->html();
-endif
-
-?>
+<?php $title = $page->title()->html(); ?>
 
 <div id="container">
 
 <div class="inner project">
 	
-	<div id="project-title"><p><?= $page->title()->html() ?><br><?= $page->subtitle()->html() ?></p></div>
-
 	<div id="slider">
 
 	<?php foreach ($images as $key => $image): ?>
 
 		<?php $image = $image->toFile(); ?>
 
-		<div class="cell" data-caption="<?= $image->caption()->html() ?>">
+		<div class="cell" data-caption="<?= $image->caption()->html() ?>" data-backcolor="<?= $image->backcolor() ?>" data-textcolor="<?= $image->textcolor() ?>">
 			<div class="content">
-				<?php if($key < 1): ?>
-				<img src="<?= resizeOnDemand($image, 1700) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
-				<?php else: ?>
-				<img class="lazy" src="<?= resizeOnDemand($image, 100) ?>" data-flickity-lazyload="<?= resizeOnDemand($image, 1700, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
-				<?php endif ?>
+				<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= resizeOnDemand($image, 1700, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				<noscript>
 					<img src="<?= resizeOnDemand($image, 1700, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				</noscript>
@@ -38,25 +25,12 @@ endif
 	<?php endforeach ?>
 
 	</div>
+	
+	<div id="project-description">
+		<?= $page->text()->kt() ?>
+	</div>
 
 	<div id="slide-caption"></div>
-
-	<div id="next-project">
-		<?php if($page->hasNextVisible()): ?>
-		<?php $next = $page->nextVisible() ?>
-		<?php else: ?>
-		<?php $next = $page->parent()->children()->visible()->first() ?>
-		<?php endif ?>
-		<?php
-		$ntitle = $next->title()->html(); 
-		if($next->subtitle()->isNotEmpty()):
-			$ntitle .= ' '.$next->subtitle()->html();
-		endif
-		?>
-		<a href="<?= $next->url() ?>" data-title="<?= $ntitle ?>" data-target="project">
-		Next project
-		</a>	
-	</div>
 
 </div>
 	

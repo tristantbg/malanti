@@ -11,6 +11,6 @@ fields:
   text:
     label: Text
     type:  textarea
-  contact:
-    label: Contact
+  footer:
+    label: Footer
     type: textarea

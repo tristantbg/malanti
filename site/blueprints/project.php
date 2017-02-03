@@ -5,6 +5,14 @@ files: true
 pages: false
 files:
   fields:
+    backcolor:
+      label: Background color
+      type: color
+      width: 1/2
+    textcolor:
+      label: Text color
+      type: color
+      width: 1/2
     caption:
       label: Caption
       type: textarea

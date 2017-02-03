@@ -10,21 +10,16 @@ $sm = 767px
 
 // Colors
 $primary ?= #fff
-$secondary ?= rgb(40,40,40)
+$secondary ?= #000
 $accent ?= #ff0000
 
 // Metrics
 $top = 13vh
-$left = 17rem
-$padding = 10px
+$padding = 3rem
 $zIndex = 100
 
 // CSS Reset
 global-reset()
-
-webfont('TW_M', 'TW_M', true, 'normal')
-webfont('TW_MI', 'TW_MI', true, 'normal')
-webfont('TW_L', 'TW_L', true, 'normal')
 
 body,html
 	width 100%
@@ -35,31 +30,28 @@ html
 	font-size 62.5%
 
 body
+	transition(color)
 	display inline-block
 	text-rendering optimizeLegibility
 	font-smoothing()
-	font-size 1.3rem
-	font-family 'TW_L', 'Helvetica', 'Arial', sans-serif
+	font-size 2rem
+	letter-spacing .02em
+	font-family 'Helvetica Neue', 'Arial', sans-serif
 	color $secondary
-
-h1, h2, .project-title, section.text-content p
-	font-family 'TW_M'
-	letter-spacing -.07em
-	line-height 110%
+	overflow hidden
 	+below($md)
-		line-height 120%
+		font-size 1.5rem
 
-.project-title, section.text-content p
-	font-size 3.2vw
-	+below($md)
-		font-size 2.3rem
+h1, h2
+	text-transform uppercase
+	line-height 100%
 
 em
-	font-family 'TW_MI'
+	font-style italic
 
-p
+p, h1, h2
 	margin-bottom 1em
-	line-height 120%
+	line-height 100%
 
 p:last-child
 	margin-bottom 0
@@ -79,235 +71,253 @@ a, a:hover, a:visited, a:focus
 	text-decoration none
 	cursor pointer
 
-.loader
-	transition(height, 1000ms, cubic-bezier(.72,0,.01,1))
-	overflow hidden
-	position fixed
-	width 100%
-	height 100%
-	top 0
-	left 0
-	background rgb(15,15,15)
-	background-size 15px
-	z-index 300
+// @keyframes color {
+//     100%, 0% {
+//         stroke: #40382e
+//     }
+//     40% {
+//         stroke: #0f0f0f
+//     }
+//     66% {
+//         stroke: #40382e
+//     }
+//     80%, 90% {
+//         stroke: #0f0f0f
+//     }
+// }
 
-#intro
-	transition(height, 1000ms, cubic-bezier(.72,0,.01,1))
-	overflow hidden
-	position fixed
-	width 100%
-	height 100%
-	top 0
-	left 0
-	z-index 400
-	padding ($padding*2)
-	cursor pointer
-	+below($md)
-		display none
-	img
-		transition(opacity,300ms)
-		opacity 0
-		position absolute
-		top $top
-		display block
-		max-width 40%
-		max-height 80%
-
-@keyframes scan {
-  0%, 10% {
-    top: -2px
-  }
-  70%, 100% {
-    top: 120%
-  }
+@keyframes rotate {
+    100% {
+        transform(rotate(360deg))
+    }
 }
 
-#intro::before
-	content ''
-	height 2px
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0
+    }
+    30% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px
+    }
+}
+
+#loader
+	overflow hidden
+	position fixed
 	width 100%
-	position absolute
-	top -2px
+	height 100%
+	top 0
 	left 0
 	background $primary
-	z-index 100
-	mix-blend-mode difference
-	animation(scan 8s ease infinite)
-	animation-delay(1s)
+	z-index 1000
+	.spinner
+		width 50px
+		height 50px
+		align()
+		top initial
+		bottom $padding
+		.circular
+			animation rotate 2s linear infinite
+			height 100%
+			transform-origin center center
+			width 100%
+			position absolute
+			top 0
+			bottom 0
+			left 0
+			right 0
+			margin auto
+			.path
+				stroke $secondary
+				stroke-dasharray 1, 200
+				stroke-dashoffset 0
+				animation dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite
+
+#intro
+	position relative
+	transition(height, 1600ms, cubic-bezier(.72,0,.01,1))
+	overflow hidden
+	height 100vh
+	flexbox()
+	justify-content center
+	align-items center
+	cursor pointer
+	z-index 800
+	span
+		transition(font-size, 1400ms, cubic-bezier(.72,0,.01,1))
+		font-size 6vw
+		padding $padding
+
+#intro.hidden
+	height 0
+	span
+		font-size 3rem
 
 body.loaded
-	.loader, #intro
-		top initial
-		bottom 0
-		height 0
+	#container .inner
+		opacity 1
 
 body.loading
-	overflow hidden
-	.loader
-		top 0
-		bottom initial
-		height 100%
+	#container .inner
+		opacity 0
 
 header
-	position fixed
-	top $top
-	left $padding
-	z-index 400
-	color $primary
-	mix-blend-mode difference
-	+below($md)
-		top $padding
-
-#about-link
-	position fixed
-	bottom $padding
-	left $padding
-	z-index $zIndex
-	+below($md)
-		bottom initial
-		left initial
-		top $padding
-		right $padding
-
-#container .inner
-	span(1)
-	position relative
-	padding $top $padding $padding $left
-	+below($md)
-		padding-left $padding
-	section:not(:last-child)
-		margin-bottom 4vw
-		+below($md)
-			margin-bottom 5rem
-	section
-		span(1)
-		.content
-			span(10/12)
-		.date
-			span(2/12)
-			margin-top .8vw
-			text-align right
-	#project-list, section:first-child
-		margin-top -.8vw
-	.project-link
-		span(1)
-	.project-title
-		span(10/12)
+	flexbox()
+	justify-content space-between
+	align-items top
+	z-index 100
+	#site-title
 		position relative
-		overflow hidden
+		padding $padding $padding 0 $padding
+		z-index 100
+		span
+			transition(width, 800ms, ease)
+			display inline-block
+			width .8em
+			overflow hidden
+			+below($md)
+				display none
+		span:nth-child(2)
+			width 0
+			transition(width, 400ms, ease)
+			transition-delay(400ms)
+	#site-title::after
 		+below($md)
-			span(11/12)
-			margin-bottom .2em
-		//transition(padding-left, 800ms)
-	.project-title::after
-		+above($md + 1)
-			content ''
-			position absolute
-			height 50vh
-			width 20vw
-			opacity 0.95
-			mix-blend-mode difference
+			content 'OO'
+	#site-title:hover
+		span:nth-child(1)
+			width 2.3em
+		span:nth-child(2)
+			width .3em
+		span:nth-child(3)
+			width 3.3em
+	#project-select
+		width 33%
+		+below($md)
+			width 65%
+		h2
+			margin-bottom 0
+		#current-project
+			transition(background-color, 300ms, ease)
+			width 100%
+			position relative
+			padding $padding $padding 0 $padding
 			background $primary
-			bottom 0
-			left -20vw
-			z-index 200
-	.project-link:hover .project-title::after
-		transition(all, 1000ms, cubic-bezier(.72,0,.01,1))
-		width 0
-		opacity 0.5
-		left 105%
-	.project-date
-		span(2/12)
-		margin-top 1.6vw
-		text-align right
-		+below($md)
-			span(1/12)
-	.project-link:hover
-		.project-title
-			//padding-left .3em
-	#about
-		span(10/12)
-		+below($md)
-			stack()
-	#contact
-		span(2/12)
-		text-align right
-		+below($md)
-			stack()
-	#credits
-		+below($md)
-			span(2/3)
+			z-index 100
+			cursor s-resize
+		#project-list
+			transition(transform, 600ms)
+			transform(translate3d(0,-100%,0))
+			position absolute
+			width 100%
+			top $padding
+			left $padding
+			padding-top 1em
+			z-index 50
+			.project-link.active
+				height 0
+				overflow hidden
+		#project-list.is-visible
+			transform(translate3d(0,0%,0))
+	#project-select:hover
+		#project-list:not(.hidden)
+			transform(translate3d(0,0%,0))
 
-#container .inner.project
-	padding-left 0
-	padding-right 0
-	#project-title
-		position fixed
-		width 20rem
-		text-align right
-		top $top
-		right $padding
-		z-index $zIndex
-		+below($md)
-			width 50%
-			right initial
-			left $padding
-			top ($padding * 3)
-			text-align left
+#wrapper
+	height 100vh
+	position relative
+
+#container
+	transition(background-color, 300ms, ease)
+	span(1)
+	height 100vh
+	position absolute
+	top 0
+	left 0
+	z-index 0
+	.inner
+		transition(opacity, 400ms)
+	#project-description, #slide-caption
+		position absolute
+		bottom $padding
+		left $padding
+		font-size 1.1rem
+		z-index 100
+		max-width 33%
 	#slide-caption
-		width 70%
-		position fixed
-		bottom $padding
-		left $left
-		z-index $zIndex
-		+below($md)
-			width 50%
-			right initial
-			left $padding
-	#next-project
-		width 20%
-		text-align right
-		position fixed
-		bottom $padding
+		left initial
 		right $padding
-		z-index $zIndex
-		+below($md)
-			display none
 
 #slider
-	height 67vh
+	height 100vh
 	width 100%
-	+below($md)
-		height 80vh
 	.cell
 		height 100%
 		width 100%
-		padding-left ($left+1)
-		+below($md)
-			padding 0
-			flexbox()
-			justify-content center
-			align-items center
+		flexbox()
+		justify-content center
+		align-items center
 		.content
-			height 100%
-			overflow hidden
 			backface()
+			height 75%
+			background transparent url('../../images/loader.gif') center no-repeat
+			background-size 15px
 			+below($md)
+				height auto
 				padding 0 $padding
 			img
 				display block
 				+below($md)
 					width auto
 					height auto
-					max-height 100%
+					max-height 75vh
 					max-width 100%
 			img.lazy
 				transition(all, 300ms, ease)
-				filter(saturate(0))
-				opacity 0.4
+				opacity 0
 			img.lazy.flickity-lazyloaded
 				opacity 1
-				filter(none)
 	.cell.is-selected
 		.content
 			transform(none)
+
+#about
+	transition(transform, 500ms)
+	transform(translate3d(100%,0,0))
+	width 50%
+	height 100%
+	position fixed
+	top 0
+	right 0
+	padding $padding
+	flexbox()
+	flex-direction column
+	justify-content space-between
+	background $secondary
+	color $primary
+	z-index 200
+	cursor url('../../images/close.png') 8 8, default
+	+below($md)
+		width 100%
+	#infos
+		max-width 46rem
+	#footer
+		font-size 1.1rem
+
+#about.visible::before
+	content ''
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left -100%
+	
+
+#about.visible
+	transform(translate3d(0%,0,0))

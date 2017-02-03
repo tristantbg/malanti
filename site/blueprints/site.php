@@ -2,6 +2,17 @@
 
 title: Site
 fields:
+  introSettings:
+    label: Intro Settings
+    type: headline
+  introbackground:
+    label: Intro background
+    type:  color
+    width: 1/2
+  introtext:
+    label: Intro text
+    type:  color
+    width: 1/2
   generalSettings:
     label: Site Settings
     type: headline
