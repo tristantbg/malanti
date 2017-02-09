@@ -66,71 +66,34 @@
 	<?php endif ?>
 
 </head>
-<body>
+<body<?php e($page->template() != "work", ' class="page"') ?>>
 
-<div id="loader" style="background-color:<?= $site->introbackground() ?>;">
-	<!-- <div class="spinner">
+<div id="loader">
+	<div class="spinner">
 		<svg class="circular" viewBox="25 25 50 50">
-		<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1" stroke-miterlimit="10" style="stroke:<?= $site->introtext() ?>;"></circle>
+		<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
 		</svg>
-	</div> -->
+	</div>
 </div>
 
-<div id="intro" style="background:<?= $site->introbackground() ?>; color:<?= $site->introtext() ?>;">
-	<span><?= $site->title()->html() ?></span>
+<div id="intro">
+	<span>
+		<img src="<?= $site->logosvg()->toFile()->url() ?>" onerror="this.src='<?= $site->image($site->logopng())->url() ?>'; this.onerror=null;" alt="<?= $site->title()->html() ?>" width="100%" height="auto">
+	</span>
 </div>
-
-<div id="wrapper">
 
 <header>
-
-	<div id="project-select">
-		<?php $projects = $pages->find('work')->children()->visible() ?>
-		<div id="current-project">
-			<?php 
-			if($page->isHomepage()){ 
-				$current = $projects->first();
-			} else {
-				$current = $page;
-			} 
-			?>
-			<h2>
-				<?= str_pad($current->sort(), 2, '0', STR_PAD_LEFT).'. '; ?>
-				<?= $current->title()->html() ?>
-			</h2>
-		</div>
-		
-		<div id="project-list">
-		<?php $idx = 0 ?>
-		<?php foreach ($projects as $key => $project): ?>
-		
-			<div class="project-link<?php if($page->isHomepage() && $idx == 0) { echo ' active'; } else if($project->isOpen()) { echo ' active'; } ?>">
-				<a href="<?= $project->url() ?>" data-title="<?= $project->title()->html() ?>" data-target="project">
-					<div class="project-title">
-						<h2>
-							<?= str_pad($project->sort(), 2, '0', STR_PAD_LEFT).'. '; ?>
-							<?= $project->title()->html() ?>
-						</h2>
-					</div>
-				</a>
-			</div>
-		
-		<?php $idx++ ?>
-		
-		<?php endforeach ?>
-		
-		</div>
-	</div>
-
-	<a id="site-title" href="<?= $site->url() ?>" data-target="about">
-		<span>Oisin</span><span> </span><span>Orlandi</span>
+	<?php $menuleft = $pages->find($site->menuleft()) ?>
+	<a class="menu-item" href="<?= $menuleft->url() ?>" data-title="<?= $menuleft->title()->html() ?>" data-target="page-left">
+	<span><?= $menuleft->title()->html() ?></span>
+	</a>
+	<a id="site-title" href="<?= $site->url() ?>" data-title="<?= $site->title()->html() ?>" data-target="index">
+		<img src="<?= $site->logosvg()->toFile()->url() ?>" onerror="this.src='<?= $site->image($site->logopng())->url() ?>'; this.onerror=null;" alt="<?= $site->title()->html() ?>" width="100%" height="auto">
+	</a>
+	<?php $menuright = $pages->find($site->menuright()) ?>
+	<a class="menu-item" href="<?= $menuright->url() ?>" data-title="<?= $menuright->title()->html() ?>" data-target="page-right">
+	<span><?= $menuright->title()->html() ?></span>
 	</a>
 </header>
 
-<div id="about">
-<?php $about = $pages->find('about') ?>
-	<div id="infos">
-		<div id="site-description"><?= $about->text()->kt() ?></div>
-	</div>
-	<div id="footer"><?= $about->footer()->kt() ?></div>
-</div>
+<div id="wrapper">

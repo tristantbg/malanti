@@ -2,16 +2,30 @@
 
 title: Site
 fields:
-  introSettings:
-    label: Intro Settings
+  menuSettings:
+    label: Menu Settings
     type: headline
-  introbackground:
-    label: Intro background
-    type:  color
+  menuleft:
+    label: Menu Left
+    type: select 
+    required: true
+    options: query
+    query:
+      page: /
+      fetch: index
+      value: "{{uri}}"
+      text: "{{title}}"
     width: 1/2
-  introtext:
-    label: Intro text
-    type:  color
+  menuright:
+    label: Menu Right
+    type: select 
+    required: true
+    options: query
+    query:
+      page: /
+      fetch: index
+      value: "{{uri}}"
+      text: "{{title}}"
     width: 1/2
   generalSettings:
     label: Site Settings
@@ -19,6 +33,15 @@ fields:
   title:
     label: Title
     type:  text
+  logosvg:
+    label: Logo SVG
+    type: select 
+    options: files
+    width: 1/2
+  logopng:
+    label: Logo PNG
+    type: image
+    width: 1/2
   description:
     label: Description
     type:  textarea

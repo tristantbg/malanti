@@ -5,13 +5,22 @@ files: true
 pages: false
 files:
   fields:
-    backcolor:
-      label: Background color
-      type: color
+    contentsize:
+      label: Size
+      type: radio
+      columns: 1
+      options:
+        fitwidth: Fit width
+        fitheight: Fit height
+        half: 50%
       width: 1/2
-    textcolor:
-      label: Text color
-      type: color
+    contentposition:
+      label: Position
+      type: radio
+      columns: 1
+      options:
+        left: Left
+        right: Right
       width: 1/2
     caption:
       label: Caption
@@ -27,14 +36,10 @@ fields:
     type:  date
     format: YYYY
     width: 1/4
-  subtitle:
-    label: Subtitle
-    type: text
-    width: 3/4
   featured:
     label: Featured image
     type: image
-    width: 1/4
+    width: 1/3
   text:
     label: Description
     type: textarea

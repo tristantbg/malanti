@@ -9,8 +9,16 @@ fields:
     label: Title
     type:  text
   text:
-    label: Text
+    label: Text for SEO
     type:  textarea
-  footer:
-    label: Footer
-    type: textarea
+  news:
+    label: News
+    type: structure
+    style: table
+    fields:
+      newscontent:
+        label: News content
+        type: textarea
+  contact:
+    label: Contact
+    type:  textarea

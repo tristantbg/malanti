@@ -14,7 +14,6 @@ $secondary ?= #000
 $accent ?= #ff0000
 
 // Metrics
-$top = 13vh
 $padding = 3rem
 $zIndex = 100
 
@@ -30,15 +29,14 @@ html
 	font-size 62.5%
 
 body
-	transition(color)
-	display inline-block
+	span(1)
 	text-rendering optimizeLegibility
 	font-smoothing()
 	font-size 2rem
 	letter-spacing .02em
 	font-family 'Helvetica Neue', 'Arial', sans-serif
+	font-weight 200
 	color $secondary
-	overflow hidden
 	+below($md)
 		font-size 1.5rem
 
@@ -56,6 +54,14 @@ p, h1, h2
 p:last-child
 	margin-bottom 0
 
+.menu-item, .project-title
+	font-size 4.5rem
+	+below($md)
+		font-size 2rem
+
+.project-description, #news, #contact
+	font-size 1.1rem
+
 ::selection
 	background $secondary
 	
@@ -71,18 +77,25 @@ a, a:hover, a:visited, a:focus
 	text-decoration none
 	cursor pointer
 
+img.lazyimg
+	transition(opacity 500ms ease)
+	opacity 0
+
+img.lazyimg.lazyloaded
+	opacity 1
+
 // @keyframes color {
 //     100%, 0% {
-//         stroke: #40382e
+//         stroke: $secondary
 //     }
-//     40% {
-//         stroke: #0f0f0f
+//     50% {
+//         stroke: alpha($secondary,0.4)
 //     }
 //     66% {
-//         stroke: #40382e
+//         stroke: alpha($secondary,0.4)
 //     }
 //     80%, 90% {
-//         stroke: #0f0f0f
+//         stroke: alpha($secondary,0.4)
 //     }
 // }
 
@@ -120,8 +133,6 @@ a, a:hover, a:visited, a:focus
 		width 50px
 		height 50px
 		align()
-		top initial
-		bottom $padding
 		.circular
 			animation rotate 2s linear infinite
 			height 100%
@@ -140,184 +151,207 @@ a, a:hover, a:visited, a:focus
 				animation dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite
 
 #intro
-	position relative
-	transition(height, 1600ms, cubic-bezier(.72,0,.01,1))
+	position fixed
+	transition(height 1600ms cubic-bezier(.72,0,.01,1))
+	transition-delay(300ms)
 	overflow hidden
+	width 100%
 	height 100vh
+	bottom 0
+	left 0
+	background $primary
 	flexbox()
 	justify-content center
 	align-items center
 	cursor pointer
 	z-index 800
+	backface()
 	span
-		transition(font-size, 1400ms, cubic-bezier(.72,0,.01,1))
-		font-size 6vw
-		padding $padding
-
-#intro.hidden
-	height 0
-	span
-		font-size 3rem
-
-body.loaded
-	#container .inner
+		transition(opacity 300ms ease)
 		opacity 1
-
-body.loading
-	#container .inner
-		opacity 0
+		width 15%
 
 header
+	position fixed
+	top 0
+	left 0
+	width 100%
+	padding $padding
 	flexbox()
 	justify-content space-between
 	align-items top
 	z-index 100
 	#site-title
-		position relative
-		padding $padding $padding 0 $padding
-		z-index 100
+		width 70px
+		align(horizontal)
+		top $padding
+	.menu-item
+		transition all 400ms ease
+		height 0
+		overflow hidden
+		//visibility hidden
+		//opacity 0
 		span
-			transition(width, 800ms, ease)
-			display inline-block
-			width .8em
-			overflow hidden
-			+below($md)
-				display none
-		span:nth-child(2)
-			width 0
-			transition(width, 400ms, ease)
-			transition-delay(400ms)
-	#site-title::after
-		+below($md)
-			content 'OO'
-	#site-title:hover
-		span:nth-child(1)
-			width 2.3em
-		span:nth-child(2)
-			width .3em
-		span:nth-child(3)
-			width 3.3em
-	#project-select
-		width 33%
-		+below($md)
-			width 65%
-		h2
-			margin-bottom 0
-		#current-project
-			transition(background-color, 300ms, ease)
-			width 100%
-			position relative
-			padding $padding $padding 0 $padding
-			background $primary
-			z-index 100
-			cursor s-resize
-		#project-list
-			transition(transform, 600ms)
-			transform(translate3d(0,-100%,0))
-			position absolute
-			width 100%
-			top $padding
-			left $padding
-			padding-top 1em
-			z-index 50
-			.project-link.active
-				height 0
-				overflow hidden
-		#project-list.is-visible
-			transform(translate3d(0,0%,0))
-	#project-select:hover
-		#project-list:not(.hidden)
-			transform(translate3d(0,0%,0))
+			display block
+			transition transform 400ms ease
+			transform(translate3d(0,-50%,0))
+			
+body:not(.page)
+	header:hover
+		.menu-item
+			height 1.1em
+			transition all 400ms ease
+			visibility visible
+			opacity 1
+			span
+				transform(translate3d(0,0%,0))
 
 #wrapper
-	height 100vh
-	position relative
-
-#container
-	transition(background-color, 300ms, ease)
 	span(1)
-	height 100vh
-	position absolute
+
+#container-left
+	transform(translate3d(-100%,0,0))
+	//overflow-y scroll
+	//-webkit-overflow-scrolling touch
+
+#container-right
+	transform(translate3d(100%,0,0))
+	//overflow-y scroll
+	//-webkit-overflow-scrolling touch
+
+.container
+	transition(transform 800ms ease)
+	position fixed
 	top 0
 	left 0
-	z-index 0
+	width 100%
+	height 100%
 	.inner
-		transition(opacity, 400ms)
-	#project-description, #slide-caption
-		position absolute
-		bottom $padding
+		span(1)
+	.inner.page
+		padding $padding
+		font-size 1.5rem
+		.section-content
+			margin-bottom 1em
+		.section-content:last-child
+			margin-bottom 0
+	.column
+		span(1/2)
+	.column.fixed
+		width 'calc(100% - %s)' % $padding
+		height 'calc(100vh - %s)' % ($padding*2)
+		position fixed
+		top $padding
 		left $padding
-		font-size 1.1rem
-		z-index 100
-		max-width 33%
-	#slide-caption
-		left initial
-		right $padding
+		#contact
+			position absolute
+			bottom 0
+			left 0
+	.column.fixed + .column
+		span(1/2, offset: 1/2)
+	.text-content
+		text-align justify
+		span(8/10)
+		p
+			line-height 110%
+	h2.section-title
+		margin-bottom 0
+	.news
+		margin-bottom 1em
+	.news:first-of-type
+		margin-top 2em
+	#contact
+		cursor pointer
+	.drawer
+		display none
+		margin-top 2em
+	#projects-menu
+		transition(transform 600ms ease)
+		position fixed
+		left 0
+		bottom 0
+		width 100%
+		padding $padding
+		flexbox()
+		justify-content space-between
+		align-items center
+		.menu-item
+			transition(width 400ms ease)
+			text-align center
+			width 1.2em
+			margin 0 0.1em
+		.menu-item:first-child
+			text-align left
+		.menu-item:last-child
+			text-align right
+		.menu-item.active
+			width 100%
+
+#imagefeed
+	span(1)
+	margin-top 'calc(12.5vh + %s)' % $padding
+	.content
+		span(1)
+		height 50vh
+		max-height 400px
+		margin-bottom 120px
+		text-align center
+		+below($md)
+			width 100%
+			height auto
+			max-height 100%
+		img
+			display inline-block
 
 #slider
-	height 100vh
 	width 100%
-	.cell
-		height 100%
-		width 100%
-		flexbox()
-		justify-content center
-		align-items center
+	.project
 		.content
-			backface()
-			height 75%
-			background transparent url('../../images/loader.gif') center no-repeat
-			background-size 15px
-			+below($md)
-				height auto
-				padding 0 $padding
+			span(1)
 			img
 				display block
-				+below($md)
-					width auto
-					height auto
-					max-height 75vh
-					max-width 100%
-			img.lazy
-				transition(all, 300ms, ease)
-				opacity 0
-			img.lazy.flickity-lazyloaded
-				opacity 1
-	.cell.is-selected
-		.content
-			transform(none)
+				float left
+		.content.half
+			img
+				width 50%
+		.content.fitheight
+			height 100vh
+			img
+				width auto
+				height 100%
+		.content.right
+			img
+				float right
+	.project-infos
+		span(1)
+		height 50vh
+		padding $padding
+		.project-description
+			margin-top 1em
+			margin-left .3em
+			+below($md)
+				margin-left 0
 
-#about
-	transition(transform, 500ms)
-	transform(translate3d(100%,0,0))
-	width 50%
-	height 100%
-	position fixed
-	top 0
-	right 0
-	padding $padding
-	flexbox()
-	flex-direction column
-	justify-content space-between
-	background $secondary
-	color $primary
-	z-index 200
-	cursor url('../../images/close.png') 8 8, default
-	+below($md)
-		width 100%
-	#infos
-		max-width 46rem
-	#footer
-		font-size 1.1rem
+body.intro-hidden
+	#intro
+		height 0
+		span
+			opacity 0
 
-#about.visible::before
-	content ''
-	position fixed
-	width 100%
-	height 100%
-	top 0
-	left -100%
-	
+body.loading
+	#container
+		.inner.page
+			opacity 0
 
-#about.visible
-	transform(translate3d(0%,0,0))
+
+body.page-left
+	#container-left
+		transform(translate3d(0%,0,0) !important)
+	#container, #projects-menu
+		transform(translate3d(100%,0,0) !important)
+
+body.page-right
+	#container-right
+		transform(translate3d(0%,0,0) !important)
+	#container, #projects-menu
+		transform(translate3d(-100%,0,0) !important)
