@@ -97,3 +97,7 @@
 </header>
 
 <div id="wrapper">
+
+<div id="close" data-target="index">
+<a data-target="index"><span></span><span></span></a>
+</div>

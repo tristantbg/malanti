@@ -43,6 +43,7 @@ c::set('typography.hyphenation.allcaps', false);
 c::set('typography.hyphenation.titlecase', false);
 //Settings
 c::set('debug', true);
+c::set('kirbytext.image.figure',false);
 c::set('oembed.lazyvideo', true);
 c::set('sitemap.exclude', array('error'));
 c::set('sitemap.important', array('contact'));

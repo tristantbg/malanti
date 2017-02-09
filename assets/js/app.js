@@ -49,12 +49,12 @@ $(function() {
                         app.goIndex();
                     }
                 });
+                $body.on('click', 'section', function(event) {
+                  $(this).find('.drawer').slideToggle(600);
+                });
                 $('#intro').click(function(event) {
                     event.preventDefault();
                     app.hideIntro();
-                });
-                $body.on('click', '.section-title', function(event) {
-                  $(this).next('.drawer').slideToggle(600);
                 });
                 document.addEventListener('lazybeforeunveil', function(e) {
                   if ($slider) {
@@ -135,10 +135,8 @@ $(function() {
                 lazyLoading: false,
                 //events
                 onLeave: function(index, nextIndex, direction) {
-                    //resetScroll.setPrevious($(this));
                 },
                 afterLoad: function(anchorLink, index) {
-                    //resetScroll.reset();
                     $('#projects-menu').find('li').eq(index - 1).addClass('active');
                 },
                 afterRender: function() {},
@@ -174,7 +172,7 @@ $(function() {
                       }
                       else if (State.target == 'page-right') {
                         $body.addClass('page page-right');
-                        rightScroll = new IScroll('#container-right', iscrollOptions);
+                        rightScroll = new IScroll('#container-right .scroller', iscrollOptions);
                       }
                         $body.removeClass('loading').addClass('loaded');
                     }, 100);
