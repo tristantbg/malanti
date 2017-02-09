@@ -382,11 +382,18 @@ body:not(.page)
 		.content.half
 			img
 				width 50%
+				+below($md)
+					width 100%
 		.content.fitheight
 			height 100vh
+			+below($md)
+				height initial
 			img
 				width auto
 				height 100%
+				+below($md)
+					width 100%
+					height auto
 		.content.right
 			img
 				float right
