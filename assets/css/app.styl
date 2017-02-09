@@ -36,6 +36,7 @@ body
 	letter-spacing .01em
 	font-family 'Helvetica Neue', 'Arial', sans-serif
 	//font-weight 200
+	background $primary
 	color $secondary
 	+below($md)
 		font-size 1.5rem
@@ -192,27 +193,37 @@ header
 	left 0
 	width 100%
 	padding $padding
-	flexbox()
-	justify-content space-between
-	align-items top
 	z-index 100
 	#site-title
 		width 70px
 		align(horizontal)
 		top $padding
-	.menu-item
-		transition all 400ms ease
-		height 0
-		overflow hidden
-		//visibility hidden
-		//opacity 0
-		span
-			display block
-			transition transform 400ms ease
-			transform(translate3d(0,-50%,0))
+
+nav
+	position fixed
+	top 0
+	left 0
+	width 100%
+	padding $padding
+	z-index 100
+	flexbox()
+	justify-content space-between
+	align-items top
+	mix-blend-mode difference
+	color $primary
+.menu-item
+	transition all 400ms ease
+	height 0
+	overflow hidden
+	//visibility hidden
+	//opacity 0
+	span
+		display block
+		transition transform 400ms ease
+		transform(translate3d(0,-50%,0))
 			
 body:not(.page)
-	header:hover
+	nav:hover
 		.menu-item
 			height 1.1em
 			transition all 400ms ease
@@ -323,6 +334,8 @@ body:not(.page)
 		bottom 0
 		width 100%
 		padding $padding
+		mix-blend-mode difference
+		color $primary
 		flexbox()
 		justify-content space-between
 		align-items center
@@ -360,6 +373,7 @@ body:not(.page)
 #slider
 	width 100%
 	.project
+		background $primary
 		.content
 			span(1)
 			img

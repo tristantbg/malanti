@@ -83,18 +83,21 @@
 </div>
 
 <header>
+	<a id="site-title" href="<?= $site->url() ?>" data-title="<?= $site->title()->html() ?>" data-target="index">
+		<img src="<?= $site->logosvg()->toFile()->url() ?>" onerror="this.src='<?= $site->image($site->logopng())->url() ?>'; this.onerror=null;" alt="<?= $site->title()->html() ?>" width="100%" height="auto">
+	</a>
+</header>
+
+<nav>
 	<?php $menuleft = $pages->find($site->menuleft()) ?>
 	<a class="menu-item" href="<?= $menuleft->url() ?>" data-title="<?= $menuleft->title()->html() ?>" data-target="page-left">
 	<span><?= $menuleft->title()->html() ?></span>
-	</a>
-	<a id="site-title" href="<?= $site->url() ?>" data-title="<?= $site->title()->html() ?>" data-target="index">
-		<img src="<?= $site->logosvg()->toFile()->url() ?>" onerror="this.src='<?= $site->image($site->logopng())->url() ?>'; this.onerror=null;" alt="<?= $site->title()->html() ?>" width="100%" height="auto">
 	</a>
 	<?php $menuright = $pages->find($site->menuright()) ?>
 	<a class="menu-item" href="<?= $menuright->url() ?>" data-title="<?= $menuright->title()->html() ?>" data-target="page-right">
 	<span><?= $menuright->title()->html() ?></span>
 	</a>
-</header>
+</nav>
 
 <div id="wrapper">
 
