@@ -50,16 +50,24 @@ $(function() {
                     }
                 });
                 $body.on('click', 'section', function(event) {
-                  $(this).find('.drawer').slideToggle(600);
+                    $(this).find('.drawer').slideToggle(600);
                 });
                 $('#intro').click(function(event) {
                     event.preventDefault();
                     app.hideIntro();
                 });
+                $('#intro').bind('mousewheel', function(evt) {
+                    if (intro) {
+                        var delta = evt.originalEvent.wheelDelta;
+                        if (delta < -10) {
+                            app.hideIntro();
+                        }
+                    }
+                });
                 document.addEventListener('lazybeforeunveil', function(e) {
-                  if ($slider) {
-                    $.fn.fullpage.reBuild();
-                  }
+                    if ($slider) {
+                        $.fn.fullpage.reBuild();
+                    }
                 });
                 $(document).keyup(function(e) {
                     if (e.keyCode === 27) app.goIndex();
@@ -134,8 +142,7 @@ $(function() {
                 slideSelector: '.project',
                 lazyLoading: false,
                 //events
-                onLeave: function(index, nextIndex, direction) {
-                },
+                onLeave: function(index, nextIndex, direction) {},
                 afterLoad: function(anchorLink, index) {
                     $('#projects-menu').find('li').eq(index - 1).addClass('active');
                 },
@@ -163,20 +170,19 @@ $(function() {
         },
         loadContent: function(url, target) {
             $body.removeClass('loaded').addClass('loading');
-                $body.scrollTop(0);
-                $(target).load(url + ' #container .inner', function(response) {
-                    setTimeout(function() {
-                      if (State.target == 'page-left') {
+            $body.scrollTop(0);
+            $(target).load(url + ' #container .inner', function(response) {
+                setTimeout(function() {
+                    if (State.target == 'page-left') {
                         $body.addClass('page page-left');
                         leftScroll = new IScroll('#container-left', iscrollOptions);
-                      }
-                      else if (State.target == 'page-right') {
+                    } else if (State.target == 'page-right') {
                         $body.addClass('page page-right');
                         rightScroll = new IScroll('#container-right .scroller', iscrollOptions);
-                      }
-                        $body.removeClass('loading').addClass('loaded');
-                    }, 100);
-                });
+                    }
+                    $body.removeClass('loading').addClass('loaded');
+                }, 100);
+            });
         },
         deferImages: function() {
             var imgDefer = document.getElementsByTagName('img');

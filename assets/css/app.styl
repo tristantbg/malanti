@@ -211,16 +211,16 @@ nav
 	align-items top
 	mix-blend-mode difference
 	color $primary
-.menu-item
-	transition all 400ms ease
-	height 0
-	overflow hidden
-	//visibility hidden
-	//opacity 0
-	span
-		display block
-		transition transform 400ms ease
-		transform(translate3d(0,-50%,0))
+	.menu-item
+		transition all 400ms ease
+		height 0
+		overflow hidden
+		//visibility hidden
+		//opacity 0
+		span
+			display block
+			transition transform 400ms ease
+			transform(translate3d(0,-50%,0))
 			
 body:not(.page)
 	nav:hover
@@ -313,11 +313,14 @@ body:not(.page)
 		text-align justify
 		span(8.5/10)
 		margin-bottom 1em
+		+below($md)
+			stack()
 		p
 			line-height 110%
 		img
 			margin-bottom 1em
-	.text-content:last-child
+			max-width 100%
+	.text-content:last-child, .text-content:not(.mobile):last-of-type
 		margin-bottom 0
 	.news
 		margin-bottom 1em
@@ -369,6 +372,8 @@ body:not(.page)
 			min-height initial
 		img
 			display inline-block
+			+below($md)
+				width 100%
 
 #slider
 	width 100%
